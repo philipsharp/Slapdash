@@ -1,5 +1,5 @@
-window.Dashboard = window.Dashboard || {};
-Dashboard.Config = {
+window.Slapdash = window.Slapdash || {};
+Slapdash.Config = {
     
     _values: {
         width: 940,
@@ -34,8 +34,8 @@ Dashboard.Config = {
 
     load: function(){
         var deferred = $.Deferred();
-        Dashboard.Config._loadGraphs().success(function(){
-            Dashboard.Config._loadDashboards().success(function(){
+        Slapdash.Config._loadGraphs().success(function(){
+            Slapdash.Config._loadDashboards().success(function(){
                 deferred.resolve();
             })
         });
@@ -44,32 +44,32 @@ Dashboard.Config = {
     
     _loadGraphs: function(){
         return $.getJSON('config/graphs.json', function(data, textStatus, jqXHR){
-            var graphs = Dashboard.Config._process(data,Dashboard.Config._values.defaults.graph);
+            var graphs = Slapdash.Config._process(data,Slapdash.Config._values.defaults.graph);
             if (_.isObject(graphs)){
-                Dashboard.Config._values.graphs = graphs;
+                Slapdash.Config._values.graphs = graphs;
             }
             else {
-                Dashboard.Util.showError(_.isString(graphs) ? graphs : "Failed to process graph configuration.");
+                Slapdash.Util.showError(_.isString(graphs) ? graphs : "Failed to process graph configuration.");
             }
         })
         .error(function(){
-            Dashboard.Util.showError('Failed to load graph configuration.');
+            Slapdash.Util.showError('Failed to load graph configuration.');
         });
     },
     
     _loadDashboards: function(){
         return $.getJSON('config/dashboards.json', function(data, textStatus, jqXHR){
-            var dashboards = Dashboard.Config._process(data,Dashboard.Config._values.defaults.dashboard,Dashboard.Config._postProcessDashboards);
+            var dashboards = Slapdash.Config._process(data,Slapdash.Config._values.defaults.dashboard,Slapdash.Config._postProcessDashboards);
             if (_.isObject(dashboards)){
-                Dashboard.Config._values.dashboards = dashboards;
+                Slapdash.Config._values.dashboards = dashboards;
             }
             else {
-                Dashboard.Util.showError(_.isString(dashboards) ? dashboards : "Failed to process dashboard configuration.");
+                Slapdash.Util.showError(_.isString(dashboards) ? dashboards : "Failed to process dashboard configuration.");
             }
             
         })
         .error(function(){
-            Dashboard.Util.showError('Failed to load dashboard configuration.');
+            Slapdash.Util.showError('Failed to load dashboard configuration.');
         });
     },
     
@@ -132,17 +132,17 @@ Dashboard.Config = {
                 if (!_.isString(row.layout)){
                     return "Missing layout in dashboard '" + dashboardKey + "', row #" + rowIndex;
                 }
-                if (_.isUndefined(Dashboard.Config._values.layouts[row.layout])){
+                if (_.isUndefined(Slapdash.Config._values.layouts[row.layout])){
                     return "Unknown layout '" + row.layout + "' in dashboard '" + dashboardKey + "', row #" + rowIndex;
                 }
                 if (!_.isArray(row.graphs)){
                     return "Missing graphs in dashboard '" + dashboardKey + "', row #" + rowIndex;
                 }
-                if (row.graphs.length != Dashboard.Config._values.layouts[row.layout].length){
+                if (row.graphs.length != Slapdash.Config._values.layouts[row.layout].length){
                     return "Incorrect number of graphs for '" + row.layout + "' in dashboard '" + dashboardKey + "', row #" + rowIndex;                    
                 }
                 for(graphIndex in row.graphs){
-                    if (_.isUndefined(Dashboard.Config._values.graphs[row.graphs[graphIndex]])){
+                    if (_.isUndefined(Slapdash.Config._values.graphs[row.graphs[graphIndex]])){
                         return "Unknown graph '" + row.graphs[graphIndex] + "' in dashboard '" + dashboardKey + "', row #" + rowIndex;
                     }
                 }

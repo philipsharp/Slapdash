@@ -1,5 +1,5 @@
-window.Dashboard = window.Dashboard || {};
-Dashboard.Page = {
+window.Slapdash = window.Slapdash || {};
+Slapdash.Page = {
 
     getCurrent: function(){
         return $.url().param('dashboard');
@@ -11,26 +11,26 @@ Dashboard.Page = {
             dashboardKey,
             dashboard;
         $container.append('<p>Select a dashboard:</p>').append($list);
-        for(dashboardKey in Dashboard.Config._values.dashboards){
-            dashboard = Dashboard.Config._values.dashboards[dashboardKey];
+        for(dashboardKey in Slapdash.Config._values.dashboards){
+            dashboard = Slapdash.Config._values.dashboards[dashboardKey];
             $list.append($('<li>').append($('<a>').attr('href','?dashboard='+dashboardKey).text(dashboard.name)));
         }
         $('body').prepend($container);
     },
     
     showDashboard: function(dashboardKey){
-        Dashboard.Page._buildDashboard(dashboardKey);
-        Dashboard.Page._drawDashboard();
+        Slapdash.Page._buildDashboard(dashboardKey);
+        Slapdash.Page._drawDashboard();
         
-        var refresh = Dashboard.Config._values.dashboards[dashboardKey].refresh;
+        var refresh = Slapdash.Config._values.dashboards[dashboardKey].refresh;
         if (refresh){
-            window.setInterval(Dashboard.Page._drawDashboard, refresh*1000);
+            window.setInterval(Slapdash.Page._drawDashboard, refresh*1000);
         }
     },
     
     _buildDashboard: function(dashboardKey){
         var $container = $container = $('<div>').addClass('container'),
-            dashboard = Dashboard.Config._values.dashboards[dashboardKey],
+            dashboard = Slapdash.Config._values.dashboards[dashboardKey],
             rowIndex,
             row,
             $dashRow,
@@ -45,15 +45,15 @@ Dashboard.Page = {
         for(rowIndex in dashboard.rows){
             row = dashboard.rows[rowIndex];
             $dashRow = $('<div class="row">');
-            layout = Dashboard.Config._values.layouts[row.layout];
+            layout = Slapdash.Config._values.layouts[row.layout];
             for(layoutElementIndex in layout){
                 layoutElement = layout[layoutElementIndex];
-                graph = Dashboard.Config._values.graphs[row.graphs[layoutElementIndex]];
-                graphUrl = Dashboard.Util.getUrl(graph,layoutElement);
+                graph = Slapdash.Config._values.graphs[row.graphs[layoutElementIndex]];
+                graphUrl = Slapdash.Util.getUrl(graph,layoutElement);
                 $dashGraphImg = $('<img>')
                     .data('url',graphUrl)
-                    .attr('width',Dashboard.Util.getSize(layoutElement[0]))
-                    .attr('height',Dashboard.Util.getSize(layoutElement[1]));
+                    .attr('width',Slapdash.Util.getSize(layoutElement[0]))
+                    .attr('height',Slapdash.Util.getSize(layoutElement[1]));
                 $dashGraph = $('<div class="graph">')
                     .attr('id', dashboardKey + "-" + rowIndex + "-" + layoutElementIndex)
                     .addClass('span' + layoutElement[0])

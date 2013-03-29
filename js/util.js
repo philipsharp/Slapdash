@@ -1,5 +1,5 @@
-window.Dashboard = window.Dashboard || {};
-Dashboard.Util = {
+window.Slapdash = window.Slapdash || {};
+Slapdash.Util = {
     
     _urlTemplates: {
         height: '%height%',
@@ -15,21 +15,21 @@ Dashboard.Util = {
     },
     
     getSize: function(x){
-        return (Dashboard.Config._values.spanSize * x) +
-               (Dashboard.Config._values.spanMargin * (x - 1));
+        return (Slapdash.Config._values.spanSize * x) +
+               (Slapdash.Config._values.spanMargin * (x - 1));
     },
     
     getUrl: function(graph,layoutElement){
         var url = graph.baseUrl + graph.url,
-            width = Dashboard.Util.getSize(layoutElement[0]),
-            height = Dashboard.Util.getSize(layoutElement[1]);
+            width = Slapdash.Util.getSize(layoutElement[0]),
+            height = Slapdash.Util.getSize(layoutElement[1]);
             params = _.extend({},graph.parameters,{width:width,height:height});
         url += (url.indexOf("?") >= 0) ? "&" : "?";
         url += $.param(params);
         
         if (graph.templateUrl){
-            url = url.replace(Dashboard.Util._urlTemplates.height, height);
-            url = url.replace(Dashboard.Util._urlTemplates.width, width);
+            url = url.replace(Slapdash.Util._urlTemplates.height, height);
+            url = url.replace(Slapdash.Util._urlTemplates.width, width);
         }
         
         return url;
