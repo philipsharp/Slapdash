@@ -1,8 +1,16 @@
 window.Slapdash = window.Slapdash || {};
 Slapdash.Page = {
-
-    getCurrent: function(){
-        return $.url().param('dashboard');
+    
+    display: function(){
+        // Choose dashboard
+        var dashboard = $.url().param('dashboard');
+        if (!dashboard){
+            Slapdash.Page.showSelector();
+        }
+        else {
+            // Draw dashboard
+            Slapdash.Page.showDashboard(dashboard);
+        }
     },
     
     showSelector: function(){
