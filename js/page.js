@@ -88,7 +88,6 @@ Slapdash.Page = {
             rowIndex,
             row,
             $dashRow,
-            layout,
             layoutElementIndex,
             layoutElement,
             graph,
@@ -99,9 +98,8 @@ Slapdash.Page = {
         for(rowIndex in dashboard.rows){
             row = dashboard.rows[rowIndex];
             $dashRow = $('<div class="row">');
-            layout = Slapdash.Config.layouts[row.layout];
-            for(layoutElementIndex in layout){
-                layoutElement = layout[layoutElementIndex];
+            for(layoutElementIndex in row.layout){
+                layoutElement = row.layout[layoutElementIndex];
                 graph = Slapdash.Config.graphs[row.graphs[layoutElementIndex]];
                 graphUrl = Slapdash.Util.getUrl(graph,layoutElement);
                 $dashGraphImg = $('<img>')

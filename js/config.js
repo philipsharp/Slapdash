@@ -129,17 +129,27 @@ Slapdash.Config = {
                 if (!_.isObject(row)){
                     return "Invalid row definition in dashboard '" + dashboardKey + "'";
                 }
-                if (!_.isString(row.layout)){
+                if (_.isArray(row.layout)){
+                    for(var i in row.layout){
+                        if (!_.isArray(row.layout[i]) || row.layout[i].length != 2){
+                            return "Bad layout in dashboard '" + dashboardKey + "', row #" + rowIndex + ", graph #" + i;
+                        }
+                    }
+                }
+                else if (!_.isString(row.layout)){
                     return "Missing layout in dashboard '" + dashboardKey + "', row #" + rowIndex;
                 }
-                if (_.isUndefined(Slapdash.Config.layouts[row.layout])){
+                else if (_.isUndefined(Slapdash.Config.layouts[row.layout])){
                     return "Unknown layout '" + row.layout + "' in dashboard '" + dashboardKey + "', row #" + rowIndex;
+                }
+                else {
+                    row.layout = Slapdash.Config.layouts[row.layout];
                 }
                 if (!_.isArray(row.graphs)){
                     return "Missing graphs in dashboard '" + dashboardKey + "', row #" + rowIndex;
                 }
-                if (row.graphs.length != Slapdash.Config.layouts[row.layout].length){
-                    return "Incorrect number of graphs for '" + row.layout + "' in dashboard '" + dashboardKey + "', row #" + rowIndex;                    
+                if (row.graphs.length != row.layout.length){
+                    return "Incorrect number of graphs for layout in dashboard '" + dashboardKey + "', row #" + rowIndex;                    
                 }
                 for(graphIndex in row.graphs){
                     if (_.isUndefined(Slapdash.Config.graphs[row.graphs[graphIndex]])){
