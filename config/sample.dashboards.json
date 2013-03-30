@@ -1,0 +1,27 @@
+{
+    "cats":{
+        "name": "Felines",
+        "rows":[
+            {
+                "layout":"halfs",
+                "graphs":["kitten","kitten"]
+            },
+            {
+                "layout":[[4,3],[4,3],[4,3]],
+                "graphs":["kitten","graykitten","kitten"]
+            }
+        ]
+    },
+    "dogs":{
+        "rows":[
+            {
+                "layout": "halfs",
+                "graphs": ["dog","dog"]
+            },
+            {
+                "layout": "halfs",
+                "graphs": ["dog","dog"]
+            }
+        ]
+    }
+}

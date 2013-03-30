@@ -1,0 +1,28 @@
+{
+    "_kitten": {
+        "baseUrl": "http://placekitten.com/",
+        "url": "%width%/%height%",
+        "templateUrl": true
+    },
+    
+    "_dog": {
+        "baseUrl": "http://placedog.com/"
+    },
+    
+    "kitten": {
+        "extends": "_kitten",
+        "parameters": {
+            "purr": "true"
+        }
+    },
+    
+    "graykitten": {
+        "extends": "kitten",
+        "url": "g/%width%/%height%"
+    },
+    
+    "dog": {
+        "extends": "_dog",
+        "url": "940/570"
+    }
+}
