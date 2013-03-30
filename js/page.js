@@ -40,7 +40,7 @@ Slapdash.Page = {
     _calculateStyles: function(){
         // 47 = 12*3 (columns)  + 11 (gutters)
         var bodyWidth = $('body').width(),
-            widthTarget = Math.max(940,bodyWidth),
+            widthTarget = Math.max(940,bodyWidth - 20),
             baseUnit = Math.floor(widthTarget/47),
             mainWidth = baseUnit * 47,
             spanSize = baseUnit * 3,
