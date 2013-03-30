@@ -7,7 +7,7 @@ Slapdash.Util = {
     },
     
     debug: function(msg){
-        if (console && console.log) console.log('Dash: ' + msg);
+        if (console && console.log) console.log('Slapdash [DEBUG]: ' + msg);
     },
 
     showError: function(err){
@@ -15,8 +15,8 @@ Slapdash.Util = {
     },
     
     getSize: function(x){
-        return (Slapdash.Config._values.spanSize * x) +
-               (Slapdash.Config._values.spanMargin * (x - 1));
+        return (Slapdash.Config.spanSize * x) +
+               (Slapdash.Config.spanMargin * (x - 1));
     },
     
     getUrl: function(graph,layoutElement){

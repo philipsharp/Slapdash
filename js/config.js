@@ -1,37 +1,37 @@
 window.Slapdash = window.Slapdash || {};
 Slapdash.Config = {
     
-    _values: {
-        width: 940,
-        spanSize: 60,
-        spanMargin: 20,
-        
-        // Defaults for user-configured objects
-        defaults: {
-            dashboard: {
-                name: null,
-                refresh: 60,
-                background: "#000"
-            },
-            graph: {
-                baseUrl: "",
-                url: "",
-                parameters: {},
-                templateUrl: false
-            }
+    mainWidth: 940,
+    spanSize: 60,
+    spanMargin: 20,
+    
+    // Defaults for user-configured objects
+    defaults: {
+        dashboard: {
+            name: null,
+            refresh: 60,
+            background: "#000"
         },
-        
-        dashboards: {},
-        graphs: {},
-        layouts: {
-            "full": [[12,6]],
-            "halfs": [[6,3],[6,3]],
-            "thirds": [[4,2],[4,2],[4,2]],
-            "quarters": [[3,2],[3,2],[3,2],[3,2]],
-            "one-by-three":[[8,4],[4,2],[4,2],[4,2]],
+        graph: {
+            baseUrl: "",
+            url: "",
+            parameters: {},
+            templateUrl: false
         }
     },
-
+    
+    dashboards: {},
+    
+    graphs: {},
+    
+    layouts: {
+        "full": [[12,6]],
+        "halfs": [[6,3],[6,3]],
+        "thirds": [[4,2],[4,2],[4,2]],
+        "quarters": [[3,2],[3,2],[3,2],[3,2]],
+        "one-by-three":[[8,4],[4,2],[4,2],[4,2]],
+    },
+    
     load: function(){
         var deferred = $.Deferred();
         Slapdash.Config._loadGraphs().success(function(){
@@ -44,9 +44,9 @@ Slapdash.Config = {
     
     _loadGraphs: function(){
         return $.getJSON('config/graphs.json', function(data, textStatus, jqXHR){
-            var graphs = Slapdash.Config._process(data,Slapdash.Config._values.defaults.graph);
+            var graphs = Slapdash.Config._process(data,Slapdash.Config.defaults.graph);
             if (_.isObject(graphs)){
-                Slapdash.Config._values.graphs = graphs;
+                Slapdash.Config.graphs = graphs;
             }
             else {
                 Slapdash.Util.showError(_.isString(graphs) ? graphs : "Failed to process graph configuration.");
@@ -59,9 +59,9 @@ Slapdash.Config = {
     
     _loadDashboards: function(){
         return $.getJSON('config/dashboards.json', function(data, textStatus, jqXHR){
-            var dashboards = Slapdash.Config._process(data,Slapdash.Config._values.defaults.dashboard,Slapdash.Config._postProcessDashboards);
+            var dashboards = Slapdash.Config._process(data,Slapdash.Config.defaults.dashboard,Slapdash.Config._postProcessDashboards);
             if (_.isObject(dashboards)){
-                Slapdash.Config._values.dashboards = dashboards;
+                Slapdash.Config.dashboards = dashboards;
             }
             else {
                 Slapdash.Util.showError(_.isString(dashboards) ? dashboards : "Failed to process dashboard configuration.");
@@ -132,17 +132,17 @@ Slapdash.Config = {
                 if (!_.isString(row.layout)){
                     return "Missing layout in dashboard '" + dashboardKey + "', row #" + rowIndex;
                 }
-                if (_.isUndefined(Slapdash.Config._values.layouts[row.layout])){
+                if (_.isUndefined(Slapdash.Config.layouts[row.layout])){
                     return "Unknown layout '" + row.layout + "' in dashboard '" + dashboardKey + "', row #" + rowIndex;
                 }
                 if (!_.isArray(row.graphs)){
                     return "Missing graphs in dashboard '" + dashboardKey + "', row #" + rowIndex;
                 }
-                if (row.graphs.length != Slapdash.Config._values.layouts[row.layout].length){
+                if (row.graphs.length != Slapdash.Config.layouts[row.layout].length){
                     return "Incorrect number of graphs for '" + row.layout + "' in dashboard '" + dashboardKey + "', row #" + rowIndex;                    
                 }
                 for(graphIndex in row.graphs){
-                    if (_.isUndefined(Slapdash.Config._values.graphs[row.graphs[graphIndex]])){
+                    if (_.isUndefined(Slapdash.Config.graphs[row.graphs[graphIndex]])){
                         return "Unknown graph '" + row.graphs[graphIndex] + "' in dashboard '" + dashboardKey + "', row #" + rowIndex;
                     }
                 }

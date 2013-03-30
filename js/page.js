@@ -19,8 +19,8 @@ Slapdash.Page = {
             dashboardKey,
             dashboard;
         $container.append('<p>Select a dashboard:</p>').append($list);
-        for(dashboardKey in Slapdash.Config._values.dashboards){
-            dashboard = Slapdash.Config._values.dashboards[dashboardKey];
+        for(dashboardKey in Slapdash.Config.dashboards){
+            dashboard = Slapdash.Config.dashboards[dashboardKey];
             $list.append($('<li>').append($('<a>').attr('href','?dashboard='+dashboardKey).text(dashboard.name)));
         }
         $('body').prepend($container);
@@ -31,7 +31,7 @@ Slapdash.Page = {
         Slapdash.Page._buildDashboard(dashboardKey);
         Slapdash.Page._drawDashboard();
         
-        var refresh = Slapdash.Config._values.dashboards[dashboardKey].refresh;
+        var refresh = Slapdash.Config.dashboards[dashboardKey].refresh;
         if (refresh){
             window.setInterval(Slapdash.Page._drawDashboard, refresh*1000);
         }
@@ -42,16 +42,16 @@ Slapdash.Page = {
         var bodyWidth = $('body').width(),
             widthTarget = Math.max(940,bodyWidth),
             baseUnit = Math.floor(widthTarget/47),
-            width = baseUnit * 47,
+            mainWidth = baseUnit * 47,
             spanSize = baseUnit * 3,
             spanMargin = baseUnit;
         
-        Slapdash.Config._values.width = width;
-        Slapdash.Config._values.spanSize = spanSize;
-        Slapdash.Config._values.spanMargin = spanMargin;
+        Slapdash.Config.mainWidth = mainWidth;
+        Slapdash.Config.spanSize = spanSize;
+        Slapdash.Config.spanMargin = spanMargin;
         
         $('head').append('<style type="text/css">' +
-            '.container { width: ' + width + 'px; }' +
+            '.container { width: ' + mainWidth + 'px; }' +
             '[class*="width"] { margin-left: ' + spanMargin + 'px; }' +
             '.row { margin-left: -' + spanMargin + 'px; }' +
             '.graph { margin-bottom: ' + spanMargin + 'px; }' +
@@ -84,7 +84,7 @@ Slapdash.Page = {
     
     _buildDashboard: function(dashboardKey){
         var $container = $('#main'),
-            dashboard = Slapdash.Config._values.dashboards[dashboardKey],
+            dashboard = Slapdash.Config.dashboards[dashboardKey],
             rowIndex,
             row,
             $dashRow,
@@ -99,10 +99,10 @@ Slapdash.Page = {
         for(rowIndex in dashboard.rows){
             row = dashboard.rows[rowIndex];
             $dashRow = $('<div class="row">');
-            layout = Slapdash.Config._values.layouts[row.layout];
+            layout = Slapdash.Config.layouts[row.layout];
             for(layoutElementIndex in layout){
                 layoutElement = layout[layoutElementIndex];
-                graph = Slapdash.Config._values.graphs[row.graphs[layoutElementIndex]];
+                graph = Slapdash.Config.graphs[row.graphs[layoutElementIndex]];
                 graphUrl = Slapdash.Util.getUrl(graph,layoutElement);
                 $dashGraphImg = $('<img>')
                     .data('url',graphUrl)
