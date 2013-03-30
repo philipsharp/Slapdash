@@ -1,45 +1,10 @@
 .container {
-  width: 940px;
   margin-right: auto;
   margin-left: auto;
   *zoom: 1;
 }
-.graph {
-    margin-bottom: 20px;
+[class*="width"] {
+  float: left;
+  min-height: 1px;
 }
-.height12 {
-  height: 940px;
-}
-.height11 {
-  height: 860px;
-}
-.height10 {
-  height: 780px;
-}
-.height9 {
-  height: 700px;
-}
-.height8 {
-  height: 620px;
-}
-.height7 {
-  height: 540px;
-}
-.height6 {
-  height: 460px;
-}
-.height5 {
-  height: 380px;
-}
-.height4 {
-  height: 300px;
-}
-.height3 {
-  height: 220px;
-}
-.height2 {
-  height: 140px;
-}
-.height1 {
-  height: 60px;
-}
+

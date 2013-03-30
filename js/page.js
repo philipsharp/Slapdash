@@ -14,8 +14,8 @@ Slapdash.Page = {
     },
     
     showSelector: function(){
-        var $container = $('<div>').addClass('container'),
-            $list = $list = $('<ul>'),
+        var $container = $('#main'),
+            $list = $('<ul>'),
             dashboardKey,
             dashboard;
         $container.append('<p>Select a dashboard:</p>').append($list);
@@ -27,6 +27,7 @@ Slapdash.Page = {
     },
     
     showDashboard: function(dashboardKey){
+        Slapdash.Page._calculateStyles();
         Slapdash.Page._buildDashboard(dashboardKey);
         Slapdash.Page._drawDashboard();
         
@@ -36,8 +37,53 @@ Slapdash.Page = {
         }
     },
     
+    _calculateStyles: function(){
+        // 47 = 12*3 (columns)  + 11 (gutters)
+        var bodyWidth = $('body').width(),
+            widthTarget = Math.max(940,bodyWidth),
+            baseUnit = Math.floor(widthTarget/47),
+            width = baseUnit * 47,
+            spanSize = baseUnit * 3,
+            spanMargin = baseUnit;
+        
+        Slapdash.Config._values.width = width;
+        Slapdash.Config._values.spanSize = spanSize;
+        Slapdash.Config._values.spanMargin = spanMargin;
+        
+        $('head').append('<style type="text/css">' +
+            '.container { width: ' + width + 'px; }' +
+            '[class*="width"] { margin-left: ' + spanMargin + 'px; }' +
+            '.row { margin-left: -' + spanMargin + 'px; }' +
+            '.graph { margin-bottom: ' + spanMargin + 'px; }' +
+            '.width1 { width: ' + spanSize + 'px; }' +  
+            '.width2 { width: ' + (spanSize * 2 + spanMargin) + 'px; }' +
+            '.width3 { width: ' + (spanSize * 3 + spanMargin * 2) + 'px; }' +
+            '.width4 { width: ' + (spanSize * 4 + spanMargin * 3) + 'px; }' +
+            '.width5 { width: ' + (spanSize * 5 + spanMargin * 4) + 'px; }' +
+            '.width6 { width: ' + (spanSize * 6 + spanMargin * 5) + 'px; }' +
+            '.width7 { width: ' + (spanSize * 7 + spanMargin * 6) + 'px; }' +
+            '.width8 { width: ' + (spanSize * 8 + spanMargin * 7) + 'px; }' +
+            '.width9 { width: ' + (spanSize * 9 + spanMargin * 8) + 'px; }' +
+            '.width10 { width: ' + (spanSize * 10 + spanMargin * 9) + 'px; }' +
+            '.width11 { width: ' + (spanSize * 11 + spanMargin * 10) + 'px; }' +
+            '.width12 { width: ' + (spanSize * 12 + spanMargin * 11) + 'px; }' +
+            '.height1 { height: ' + spanSize + 'px; }' +  
+            '.height2 { height: ' + (spanSize * 2 + spanMargin) + 'px; }' +
+            '.height3 { height: ' + (spanSize * 3 + spanMargin * 2) + 'px; }' +
+            '.height4 { height: ' + (spanSize * 4 + spanMargin * 3) + 'px; }' +
+            '.height5 { height: ' + (spanSize * 5 + spanMargin * 4) + 'px; }' +
+            '.height6 { height: ' + (spanSize * 6 + spanMargin * 5) + 'px; }' +
+            '.height7 { height: ' + (spanSize * 7 + spanMargin * 6) + 'px; }' +
+            '.height8 { height: ' + (spanSize * 8 + spanMargin * 7) + 'px; }' +
+            '.height9 { height: ' + (spanSize * 9 + spanMargin * 8) + 'px; }' +
+            '.height10 { height: ' + (spanSize * 10 + spanMargin * 9) + 'px; }' +
+            '.height11 { height: ' + (spanSize * 11 + spanMargin * 10) + 'px; }' +
+            '.height12 { height: ' + (spanSize * 12 + spanMargin * 11) + 'px; }' +
+            '</style>');
+    },
+    
     _buildDashboard: function(dashboardKey){
-        var $container = $container = $('<div>').addClass('container'),
+        var $container = $('#main'),
             dashboard = Slapdash.Config._values.dashboards[dashboardKey],
             rowIndex,
             row,
@@ -64,7 +110,7 @@ Slapdash.Page = {
                     .attr('height',Slapdash.Util.getSize(layoutElement[1]));
                 $dashGraph = $('<div class="graph">')
                     .attr('id', dashboardKey + "-" + rowIndex + "-" + layoutElementIndex)
-                    .addClass('span' + layoutElement[0])
+                    .addClass('width' + layoutElement[0])
                     .addClass('height' + layoutElement[1])
                     .append($dashGraphImg);
                 $dashRow.append($dashGraph);
